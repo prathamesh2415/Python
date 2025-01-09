@@ -37,3 +37,5 @@ print("Unique numbers:", unique_numbers)
 # NoneType variable
 nothing = None
 print("Nothing:", nothing)
+
+print("Hello World")
