@@ -34,6 +34,7 @@ print("Bitwise right shift:", a >> 1)
 
 # Assignment Operators
 c = 10
+print("c :", c)
 c += 5
 print("c += 5:", c)
 c -= 3
