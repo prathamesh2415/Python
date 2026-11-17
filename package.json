@@ -1,0 +1,13 @@
+{
+  "name": "buffett-terminal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Warren Buffett–style value investing terminal for US and Indian equities",
+  "scripts": {
+    "start": "python3 run.py",
+    "dev": "RELOAD=1 HOST=127.0.0.1 PORT=8765 python3 run.py"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

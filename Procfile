@@ -1,0 +1,1 @@
+web: HOST=0.0.0.0 PORT=${PORT:-8765} python3 run.py

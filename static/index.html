@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BUFFETT TERMINAL — Value Investing Desk</title>
+    <meta
+      name="description"
+      content="Warren Buffett–style stock screener and market indicator for US and Indian equities."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Special+Elite&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/terminal.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand-block">
+          <h1 class="brand">BUFFETT <span>TERMINAL</span></h1>
+          <p class="tagline">Owner earnings · Margin of safety · US &amp; India equities</p>
+        </div>
+        <div class="clock-block">
+          <div>SESSION DESK</div>
+          <div class="time" id="clock">—</div>
+        </div>
+      </header>
+
+      <nav class="nav" aria-label="Primary">
+        <button type="button" data-view="market" class="active">Market Pulse</button>
+        <button type="button" data-view="screen">Buffett Screener</button>
+        <button type="button" data-view="analyze">Stock Scorecard</button>
+        <button type="button" data-view="philosophy">Playbook</button>
+      </nav>
+
+      <div class="command-bar">
+        <input
+          id="symbol-input"
+          type="text"
+          placeholder="Analyze ticker — AAPL, BRK-B, RELIANCE, TCS.NS…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <select id="symbol-market" aria-label="Market hint">
+          <option value="auto">Auto market</option>
+          <option value="us">US</option>
+          <option value="india">India (NSE)</option>
+        </select>
+        <button type="button" class="primary" id="btn-analyze">Analyze</button>
+      </div>
+
+      <!-- MARKET -->
+      <section id="view-market" class="view active">
+        <div class="panel">
+          <h3 class="panel-title">
+            Buffett Indicator
+            <span class="hint">Market Cap ÷ GDP</span>
+          </h3>
+          <div class="bi-grid" id="bi-root">
+            <div class="empty loading">loading indicator…</div>
+          </div>
+          <p class="methodology" id="bi-method"></p>
+          <p class="status-line" id="market-status"></p>
+          <div id="market-error"></div>
+        </div>
+
+        <div class="panel">
+          <h3 class="panel-title">
+            United States Indices
+            <span class="hint"><button type="button" class="primary" id="btn-refresh-market">Refresh</button></span>
+          </h3>
+          <div class="indices-grid" id="us-indices"></div>
+        </div>
+
+        <div class="panel">
+          <h3 class="panel-title">India Indices</h3>
+          <div class="indices-grid" id="india-indices"></div>
+        </div>
+      </section>
+
+      <!-- SCREENER -->
+      <section id="view-screen" class="view">
+        <div class="panel">
+          <h3 class="panel-title">
+            Buffett Quality Screener
+            <span class="hint">ROE · leverage · margins · FCF · valuation</span>
+          </h3>
+          <div class="toolbar">
+            <select id="screen-market">
+              <option value="both">US + India</option>
+              <option value="us">US only</option>
+              <option value="india">India only</option>
+            </select>
+            <button type="button" class="primary" id="btn-run-screen">Run Screen</button>
+          </div>
+          <p class="status-line" id="screen-status">Click Run Screen to score the universe.</p>
+          <div id="screen-error"></div>
+          <div class="table-wrap">
+            <table class="screen">
+              <thead>
+                <tr>
+                  <th data-sort="score">Score</th>
+                  <th data-sort="grade">Grade</th>
+                  <th data-sort="symbol">Symbol</th>
+                  <th data-sort="name">Name</th>
+                  <th data-sort="market">Mkt</th>
+                  <th data-sort="price">Price</th>
+                  <th data-sort="roe">ROE</th>
+                  <th data-sort="debtToEquity">D/E</th>
+                  <th data-sort="pe">P/E</th>
+                  <th data-sort="marginOfSafetyPct">MOS</th>
+                </tr>
+              </thead>
+              <tbody id="screen-body">
+                <tr>
+                  <td colspan="10" class="empty">Awaiting screen…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ANALYZE -->
+      <section id="view-analyze" class="view">
+        <p class="status-line" id="analyze-status">Enter a symbol above to open the scorecard.</p>
+        <div id="analyze-root"></div>
+      </section>
+
+      <!-- PHILOSOPHY -->
+      <section id="view-philosophy" class="view">
+        <div class="panel">
+          <h3 class="panel-title">How This Desk Thinks</h3>
+          <div class="philosophy">
+            <div class="phil-card">
+              <h4>1. Business Quality</h4>
+              <p>
+                Prefer high ROE and ROA with wide operating margins — evidence of a durable
+                economic moat and pricing power, not just a hot ticker.
+              </p>
+            </div>
+            <div class="phil-card">
+              <h4>2. Fortress Balance Sheet</h4>
+              <p>
+                Low debt-to-equity and solid liquidity. Buffett buys businesses that can survive
+                storms without begging capital markets for oxygen.
+              </p>
+            </div>
+            <div class="phil-card">
+              <h4>3. Owner Earnings</h4>
+              <p>
+                Free cash flow is the cash a owner can extract. Positive, recurring FCF beats
+                accounting gymnastics every time.
+              </p>
+            </div>
+            <div class="phil-card">
+              <h4>4. Margin of Safety</h4>
+              <p>
+                Price is what you pay; value is what you get. Intrinsic value here blends Graham
+                number, capped growth multiples, and FCF capitalization.
+              </p>
+            </div>
+            <div class="phil-card">
+              <h4>5. Market Cap / GDP</h4>
+              <p>
+                The classic Buffett Indicator gauges whether the overall equity market is cheap or
+                dear vs the economy — a climate check, not a stock picker.
+              </p>
+            </div>
+            <div class="phil-card">
+              <h4>6. US &amp; India Desk</h4>
+              <p>
+                Live quotes and fundamentals via Yahoo Finance (yfinance). India names use NSE
+                <code>.NS</code> symbols. Screener universe covers major liquid blue chips.
+              </p>
+            </div>
+          </div>
+          <p class="methodology" style="margin-top: 16px">
+            Not investment advice. Data can be delayed or incomplete. Always verify filings
+            (10-K / annual report) before allocating capital. Past heuristics ≠ future returns.
+          </p>
+        </div>
+      </section>
+
+      <footer class="footer">
+        BUFFETT TERMINAL v1 · Data: Yahoo Finance · Inspired by Berkshire value principles · Built for research desks
+      </footer>
+    </div>
+    <script type="module" src="/static/js/app.js"></script>
+  </body>
+</html>
